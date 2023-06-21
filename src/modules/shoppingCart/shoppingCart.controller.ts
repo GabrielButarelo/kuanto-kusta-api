@@ -25,18 +25,6 @@ export class ShoppingCartController {
 
   @Get('view')
   viewShoppingCart() {
-    return {
-      shoppingCartId: 192663,
-      userId: 11111111,
-      totalPrice: 267,
-      totalQuantity: 1,
-      products: [
-        {
-          productId: 192663,
-          price: 267,
-          quantity: 1,
-        },
-      ],
-    };
+    return this.communicationClient.send('view', {});
   }
 }
