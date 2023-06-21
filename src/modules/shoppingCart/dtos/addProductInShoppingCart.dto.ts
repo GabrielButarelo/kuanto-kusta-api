@@ -1,13 +1,31 @@
-import { IsNotEmpty, ValidateNested } from 'class-validator';
-import { AddProductInShoppingCartProductDto } from './addProductInShoppingCartProduct.dto';
+import { IsNotEmpty } from 'class-validator';
 import { IAddProductInShoppingCart } from '../interfaces/addProductInShoppingCart.interface';
-import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class AddProductInShoppingCartDto implements IAddProductInShoppingCart {
   @IsNotEmpty()
-  userId: string;
+  @ApiProperty({
+    description: 'Put the id of a product',
+    example: '1023',
+    type: String,
+  })
+  productId: string;
 
-  @ValidateNested({ each: true })
-  @Type(() => AddProductInShoppingCartProductDto)
-  product: AddProductInShoppingCartProductDto;
+  @ApiProperty({
+    description:
+      'Define the quantity of this product that you want to put in the shopping cart',
+    example: '1',
+    type: Number,
+  })
+  @IsNotEmpty()
+  quantity: number;
+
+  @ApiProperty({
+    description:
+      'Set the price of the product you want to put in the shopping cart',
+    example: '100',
+    type: Number,
+  })
+  @IsNotEmpty()
+  price: number;
 }

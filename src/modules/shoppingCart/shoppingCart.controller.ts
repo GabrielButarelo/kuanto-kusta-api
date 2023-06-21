@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Headers } from '@nestjs/common';
 import { AddProductInShoppingCartDto } from './dtos/addProductInShoppingCart.dto';
 import { RemoveProductInShoppingCartDto } from './dtos/removeProductInShoppingCart.dto';
 import { ClientProxy } from '@nestjs/microservices';
@@ -13,20 +13,35 @@ export class ShoppingCartController {
   ) {}
 
   @Post('add-product')
-  addProductInShoppingCart(@Body() data: AddProductInShoppingCartDto) {
-    return this.communicationClient.send('add_product_in_shopping_cart', data);
+  addProductInShoppingCart(
+    @Headers() headers,
+    @Body() data: AddProductInShoppingCartDto,
+  ) {
+    return this.communicationClient.send('add_product_in_shopping_cart', {
+      userId: headers.userid,
+      product: {
+        ...data,
+      },
+    });
   }
 
   @Post('remove-product')
-  removeProductInShoppingCart(@Body() data: RemoveProductInShoppingCartDto) {
-    return this.communicationClient.send(
-      'remove_product_in_shopping_cart',
-      data,
-    );
+  removeProductInShoppingCart(
+    @Headers() headers,
+    @Body() data: RemoveProductInShoppingCartDto,
+  ) {
+    return this.communicationClient.send('remove_product_in_shopping_cart', {
+      userId: headers.userid,
+      product: {
+        ...data,
+      },
+    });
   }
 
   @Get('view')
-  viewShoppingCart() {
-    return this.communicationClient.send('view', {});
+  viewShoppingCart(@Headers() headers) {
+    return this.communicationClient.send('view_shopping_cart', {
+      userId: headers.userid,
+    });
   }
 }

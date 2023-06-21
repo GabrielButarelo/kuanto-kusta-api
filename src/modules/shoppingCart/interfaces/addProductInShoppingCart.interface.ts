@@ -1,6 +1,5 @@
-import { AddProductInShoppingCartProductDto } from '../dtos/addProductInShoppingCartProduct.dto';
-
 export interface IAddProductInShoppingCart {
-  userId: string;
-  product: AddProductInShoppingCartProductDto;
+  productId: string;
+  quantity: number;
+  price: number;
 }

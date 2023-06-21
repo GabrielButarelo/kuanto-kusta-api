@@ -1,15 +1,33 @@
-import { IsNotEmpty, ValidateNested } from 'class-validator';
-import { AddProductInShoppingCartProductDto } from './addProductInShoppingCartProduct.dto';
+import { IsNotEmpty } from 'class-validator';
 import { IRemoveProductInShoppingCart } from '../interfaces/removeProductInShoppingCart.interface';
-import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class RemoveProductInShoppingCartDto
   implements IRemoveProductInShoppingCart
 {
   @IsNotEmpty()
-  userId: string;
+  @ApiProperty({
+    description: 'Put the id of a product',
+    example: '1023',
+    type: String,
+  })
+  productId: string;
 
-  @ValidateNested({ each: true })
-  @Type(() => AddProductInShoppingCartProductDto)
-  product: AddProductInShoppingCartProductDto;
+  @ApiProperty({
+    description:
+      'Define the quantity of this product that you want to remove in the shopping cart',
+    example: '1',
+    type: Number,
+  })
+  @IsNotEmpty()
+  quantity: number;
+
+  @ApiProperty({
+    description:
+      'Set the price of the product you want to remove in the shopping cart',
+    example: '100',
+    type: Number,
+  })
+  @IsNotEmpty()
+  price: number;
 }
