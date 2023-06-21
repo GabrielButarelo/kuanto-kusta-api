@@ -2,7 +2,9 @@ import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { AddProductInShoppingCartDto } from './dtos/addProductInShoppingCart.dto';
 import { RemoveProductInShoppingCartDto } from './dtos/removeProductInShoppingCart.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('shopping-cart')
 @Controller('shopping-cart')
 export class ShoppingCartController {
   constructor(

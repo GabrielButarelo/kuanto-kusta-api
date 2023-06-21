@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ShoppingCartController } from './shoppingCart.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { AuthMiddleware } from '../auth/auth.middleware';
 
 @Module({
   imports: [
@@ -14,4 +15,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   controllers: [ShoppingCartController],
   providers: [],
 })
-export class ShoppingCartModule {}
+export class ShoppingCartModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('shopping-cart');
+  }
+}

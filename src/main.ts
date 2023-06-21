@@ -14,6 +14,8 @@ async function bootstrap() {
       'Here you will find the necessary information to make requests to Kuanto Kusta APIs',
     )
     .setVersion('1.0')
+    .addTag('products')
+    .addTag('shopping-cart')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
