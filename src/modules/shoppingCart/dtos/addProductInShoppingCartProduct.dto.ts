@@ -9,4 +9,7 @@ export class AddProductInShoppingCartProductDto
 
   @IsNotEmpty()
   quantity: number;
+
+  @IsNotEmpty()
+  price: number;
 }

@@ -1,24 +1,21 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { CreateProductDto } from './dtos/createProduct.dto';
 
 @Controller('products')
 export class ProductsController {
+  constructor(
+    @Inject('PRODUCTS_COMMUNICATION')
+    private readonly communicationClient: ClientProxy,
+  ) {}
+
+  @Post('create-product')
+  createProduct(@Body() data: CreateProductDto) {
+    return this.communicationClient.send('create_product', data);
+  }
+
   @Get('list-all-products')
   listAllProducts() {
-    return {
-      products: [
-        {
-          productId: '192663',
-          price: 267,
-        },
-        {
-          productId: '192664',
-          price: 220,
-        },
-        {
-          productId: '192665',
-          price: 2617,
-        },
-      ],
-    };
+    return this.communicationClient.send('list_all_products', {});
   }
 }

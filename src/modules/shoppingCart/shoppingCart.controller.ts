@@ -1,21 +1,26 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { AddProductInShoppingCartDto } from './dtos/addProductInShoppingCart.dto';
 import { RemoveProductInShoppingCartDto } from './dtos/removeProductInShoppingCart.dto';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Controller('shopping-cart')
 export class ShoppingCartController {
+  constructor(
+    @Inject('SHOPPING_CART_COMMUNICATION')
+    private readonly communicationClient: ClientProxy,
+  ) {}
+
   @Post('add-product')
-  addProductInShoppingCart(@Body() body: AddProductInShoppingCartDto) {
-    return {
-      ...body,
-    };
+  addProductInShoppingCart(@Body() data: AddProductInShoppingCartDto) {
+    return this.communicationClient.send('add_product_in_shopping_cart', data);
   }
 
   @Post('remove-product')
-  removeProductInShoppingCart(@Body() body: RemoveProductInShoppingCartDto) {
-    return {
-      ...body,
-    };
+  removeProductInShoppingCart(@Body() data: RemoveProductInShoppingCartDto) {
+    return this.communicationClient.send(
+      'remove_product_in_shopping_cart',
+      data,
+    );
   }
 
   @Get('view')
