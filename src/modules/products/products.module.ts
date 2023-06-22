@@ -9,6 +9,9 @@ import { AuthMiddleware } from '../auth/auth.middleware';
       {
         name: 'PRODUCTS_COMMUNICATION',
         transport: Transport.TCP,
+        options: {
+          port: 3001,
+        },
       },
     ]),
   ],
